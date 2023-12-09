@@ -1,4 +1,4 @@
-Dokumentasi Setup Website
+# Dokumentasi Setup Website
 
 1. Buat database pada postgresql (melalui pgadmin)
 
