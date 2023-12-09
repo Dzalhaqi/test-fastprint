@@ -1,0 +1,57 @@
+{% extends "barang/base.html" %}
+{% load static %}
+
+{% block content %}
+    <div>
+        <div class="flex justify-between mx-10 mt-10 mb-5">
+            <h1 class="text-center font-semibold text-4xl">Daftar Produk</h1>
+            <a href="{% url 'barang:tambah' %}" class="bg-green-500 px-3 py-2 rounded-md text-white">Tambah Produk</a>
+        </div>
+
+        <div class="grid sm:grid-cols-2 md:grid-cols-4 justify-items-stretch gap-3 mx-10 mb-10">
+            {% for produk in produk_list %}
+                <div class="p-5 rounded-md shadow-md bg-white whitespace-normal break-words justify-between flex flex-col gap-y-5 font-serif w-full">
+                    <p>{{ produk.nama_produk | title }} </p>
+                    <div>
+                        <p>Kategori: {{ produk.id_kategori.nama_kategori }} </p>
+                        <p>Harga: Rp{{ produk.harga }} </p>
+                        <p>Status: {{ produk.id_status.nama_status | title }}</p>
+                    </div>
+                    <div class="flex w-full gap-x-2 text-center">
+                        <button onclick="showDeleteModal('{{ produk.id_produk }}')" class="bg-red-500 px-3 py-2 rounded-md w-full text-white">Hapus</button>
+                        <form action="{% url 'barang:edit' produk.id_produk %}" method="post" id="editForm" class="bg-blue-500 rounded-md w-full text-white">
+                          {% csrf_token %}
+                          <button type="submit" class="w-full h-full px-3 py-2">Edit</button>
+                          <input type="hidden" name="edit" value="True">
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Delete confirmation modal -->
+        <div id="deleteModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 hidden">
+            <div class="bg-white p-4 shadow-md rounded-md absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <h2 class="text-xl font-bold mb-4">Konfirmasi Hapus</h2>
+                <p id="deleteModalText" class="mb-4"></p>
+                <div class="flex justify-end">
+                    <button id="confirmDelete" type="button" class="bg-red-500 text-white px-4 py-2 rounded-md mr-2" onclick="deleteProduct()">Hapus</button>
+                    <button id="cancelDelete" type="button" onclick="hideDeleteModal()" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md">Batal</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success modal -->
+        <div id="successModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 hidden">
+            <div class="bg-white p-4  shadow-md rounded-md absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <h2 class="text-xl font-bold mb-4 text-green-500">Sukses</h2>
+                <p id="successModalText" class="mb-4"></p>
+                <div class="flex justify-end">
+                    <button id="closeSuccessModal" type="button" onclick="hideSuccessModal()" class="bg-green-500 text-white px-4 py-2 rounded-md">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/script.js' %}"></script>
+{% endblock content %}
