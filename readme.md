@@ -38,6 +38,23 @@
 
 4. Setup model table database pada website dan atur static file
 
+    Buka file settings.py yang berada pada folder crud lalu sesuaikan konfigurasi databasenya
+
+    ```
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'crud',
+            'USER': '<sesuiaikan usernya>',
+            'PASSWORD': '<sesuaikan passwordnya>',
+            'HOST': 'localhost',
+            'POST': 5432
+        }
+    }
+    ```
+
+    Kemudian jalan perintah berikut di terminal
+
     ```
     python manage.py makemigrations && python manage.py migrate
     ```
